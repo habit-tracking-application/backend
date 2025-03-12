@@ -7,6 +7,7 @@ import { UserRepository } from "./repositories/mysql/user.repository";
 import { UserRepositoryInterface } from "./repositories/user-repository.interface";
 import { FindUserByIdService } from "./services/find-user-by-id.service";
 import { SaveUserService } from "./services/save-user.service";
+import { FindUserByEmailService } from "./services/find-user-by-email.service";
 
 const repositoryProviders: Array<Provider> = [
     {
@@ -31,11 +32,16 @@ const serviceProviders: Array<Provider> = [
         provide: UserDiTokens.SaveUserService,
         useFactory: (userRepository: UserRepositoryInterface) => new SaveUserService(userRepository),
         inject: [UserDiTokens.UserRepositoryInterface]
+    },
+    {
+        provide: UserDiTokens.FindUserByEmailService,
+        useFactory: (userRepository: UserRepositoryInterface) => new FindUserByEmailService(userRepository),
+        inject: [UserDiTokens.UserRepositoryInterface]
     }
 ];
 
 @Module({
     providers: [...repositoryProviders, ...serviceProviders],
-    exports: [UserDiTokens.FindUserByIdService, UserDiTokens.SaveUserService]
+    exports: [UserDiTokens.FindUserByIdService, UserDiTokens.SaveUserService, UserDiTokens.FindUserByEmailService]
 })
 export class UsersModule {}
