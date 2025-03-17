@@ -1,30 +1,30 @@
 import { Column, CreateDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { UserPayload } from "./types/user-payload.type";
 
-@Entity()
+@Entity('users')
 export class User {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({ name: 'username' })
     username: string;
 
-    @Column()
+    @Column({ name: 'password' })
     password: string;
 
-    @Column()
+    @Column({ name: 'email' })
     email: string;
 
-    @Column()
+    @Column({ name: 'is_verified' })
     isVerified: Boolean;
 
-    @CreateDateColumn()
+    @CreateDateColumn({ name: 'created_at' })
     createdAt: Date;
 
-    @UpdateDateColumn()
+    @UpdateDateColumn({ name: 'updated_at' })
     updatedAt: Date;
 
-    constructor (payload?: UserPayload) {
+    constructor(payload?: UserPayload) {
         this.username = payload?.username;
         this.email = payload?.email;
         this.password = payload?.password;
