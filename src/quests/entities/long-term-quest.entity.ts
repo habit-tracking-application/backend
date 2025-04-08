@@ -8,19 +8,19 @@ export class LongTermQuest {
     id: number;
 
     @Index("idx_long_term_quest_on_quest")
-    @Column({name: "quest_id"})
+    @Column({ name: "quest_id" })
     questId: number;
 
     @Column({ name: "type", type: "enum", enum: LongTermQuestType })
     type: LongTermQuestType;
 
-    @Column({ name: "goal_date"})
+    @Column({ name: "goal_date" })
     goalDate: Date;
 
     @Column({ name: "is_completed", default: false })
     isCompleted: Boolean;
 
-    @OneToMany(() => PartialQuest, partialQuest => partialQuest.longTermQuest)
+    @OneToMany(() => PartialQuest, partialQuest => partialQuest.longTermQuest, { cascade: true, onDelete: "CASCADE" })
     partialQuests: PartialQuest[];
 
     @CreateDateColumn({ name: "created_at" })
@@ -31,7 +31,7 @@ export class LongTermQuest {
 
     constructor(payload?: CreateLongTermQuestPayload) {
         this.goalDate = payload?.goalDate;
-        this.partialQuests = payload?.partialQuests;
+        this.partialQuests = [];
         this.questId = payload?.questId;
         this.type = payload?.type;
     }

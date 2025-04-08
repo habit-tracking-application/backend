@@ -4,7 +4,6 @@ export type CreateLongTermQuestPayload = {
     questId: number;
     type: LongTermQuestType;
     goalDate: Date;
-    partialQuests: PartialQuest[];
 }
 
 export enum LongTermQuestType {

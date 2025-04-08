@@ -1,17 +1,13 @@
 import { Column, CreateDateColumn, Entity, Index, JoinColumn, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { LongTermQuest } from "./long-term-quest.entity";
+import { CreatePartialQuestPayload } from "./types/create-partial-quest-payload.type";
 
 @Entity()
 export class PartialQuest {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Index("idx_partial_quest_on_long_term_quest")
-    @Column({ name: "long_term_quest_id" })
-    longTermQuestId: number;
-
-    @ManyToOne(() => LongTermQuest, longTermQuest => longTermQuest.partialQuests)
-    @JoinColumn({ name: "long_term_quest_id" })
+    @ManyToOne(() => LongTermQuest, longTermQuest => longTermQuest.partialQuests, { onDelete: "CASCADE" })
     longTermQuest: LongTermQuest;
 
     @Column({ name: "description" })
@@ -25,4 +21,9 @@ export class PartialQuest {
 
     @UpdateDateColumn({ name: "updated_at" })
     updatedAt: Date;
+
+    constructor (payload?: CreatePartialQuestPayload) {
+        this.description = payload?.description;
+        this.longTermQuest = payload?.longTermQuest;
+    }
 }
